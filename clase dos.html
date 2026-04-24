@@ -1,0 +1,2173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>La Perla Pizzería | Experiencia Gastronómica</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ============ VARIABLES & CONFIG ============ */
+    :root {
+      --primary: #c41e3a;
+      --primary-dark: #8b1528;
+      --primary-light: #e57373;
+      --secondary: #f4a261;
+      --secondary-light: #fcd9a6;
+      --dark: #000000;
+      --darker: #c29898a8;
+      --light: #fffef9;
+      --gray: #6b7280;
+      --gray-light: #f3f4f6;
+      --success: #22c55e;
+      --warning: #eda516;
+      
+      /* Glassmorphism */
+      --glass: rgba(255, 255, 255, 0.15);
+      --glass-border: rgba(255, 255, 255, 0.25);
+      --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      
+      /* Shadows & Effects */
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+      --shadow: 0 8px 30px rgba(0,0,0,0.12);
+      --shadow-lg: 0 20px 60px rgba(0,0,0,0.25);
+      --shadow-glow: 0 0 40px rgba(196, 30, 58, 0.4);
+      
+      --radius: 24px;
+      --radius-sm: 12px;
+      --radius-lg: 32px;
+      
+      --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      --transition-sm: all 0.25s ease;
+      
+      /* Animations */
+      --animate-in: fadeInUp 0.6s ease forwards;
+      --animate-delay-1: 0.1s;
+      --animate-delay-2: 0.2s;
+      --animate-delay-3: 0.3s;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    html { scroll-behavior: smooth; }
+    
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--light);
+      color: var(--dark);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    /* ============ BACKGROUND ANIMATED ============ */
+    .bg-animated {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      background: 
+        radial-gradient(ellipse at 20% 80%, rgba(196, 30, 58, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(244, 162, 97, 0.1) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+    }
+
+    .floating-shapes {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .shape {
+      position: absolute;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      opacity: 0.1;
+      animation: float 20s infinite ease-in-out;
+    }
+
+    .shape:nth-child(1) { width: 300px; height: 300px; top: 10%; left: 10%; animation-delay: 0s; }
+    .shape:nth-child(2) { width: 200px; height: 200px; top: 60%; right: 15%; animation-delay: -5s; }
+    .shape:nth-child(3) { width: 150px; height: 150px; bottom: 20%; left: 30%; animation-delay: -10s; }
+    .shape:nth-child(4) { width: 250px; height: 250px; top: 40%; right: 40%; animation-delay: -15s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+      25% { transform: translateY(-30px) rotate(90deg) scale(1.05); }
+      50% { transform: translateY(0) rotate(180deg) scale(1); }
+      75% { transform: translateY(30px) rotate(270deg) scale(0.95); }
+    }
+
+    /* ============ HEADER ============ */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 1rem 2rem;
+      background: rgba(255, 254, 249, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--glass-border);
+      transition: var(--transition);
+    }
+
+    header.scrolled {
+      padding: 0.75rem 2rem;
+      box-shadow: var(--shadow);
+      background: rgba(255, 254, 249, 0.95);
+    }
+
+    .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1.6rem;
+      font-weight: 700;
+      font-family: 'Playfair Display', serif;
+      color: var(--dark);
+      text-decoration: none;
+      position: relative;
+    }
+
+    .logo::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      transition: var(--transition-sm);
+    }
+
+    .logo:hover::after { width: 100%; }
+
+    .logo i { 
+      font-size: 2rem; 
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.8; transform: scale(1.1); }
+    }
+
+    .logo span { 
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 0.5rem;
+    }
+
+    nav a {
+      color: var(--dark);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.6rem 1rem;
+      border-radius: 50px;
+      transition: var(--transition-sm);
+      position: relative;
+      font-size: 0.95rem;
+    }
+
+    nav a::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      opacity: 0;
+      transition: var(--transition-sm);
+      z-index: -1;
+    }
+
+    nav a:hover, nav a.active {
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    nav a:hover::before, nav a.active::before {
+      opacity: 1;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .btn {
+      padding: 0.85rem 1.75rem;
+      border: none;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      font-size: 0.95rem;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 50px;
+      z-index: -1;
+      transition: var(--transition);
+    }
+
+    .btn-primary {
+      color: white;
+      box-shadow: var(--shadow-glow);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 0 60px rgba(196, 30, 58, 0.6);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+    }
+
+    .btn-outline::before { opacity: 0; }
+    .btn-outline:hover {
+      color: white;
+      transform: translateY(-2px);
+    }
+    .btn-outline:hover::before { opacity: 1; }
+
+    .cart-btn {
+      position: relative;
+      background: var(--glass);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+      color: var(--dark);
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .cart-btn:hover {
+      transform: scale(1.1) rotate(5deg);
+      background: var(--primary);
+      color: white;
+      box-shadow: var(--shadow-glow);
+    }
+
+    .cart-count {
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      background: linear-gradient(135deg, var(--secondary), var(--warning));
+      color: var(--dark);
+      font-size: 0.7rem;
+      font-weight: 800;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 3px solid white;
+      animation: bounce 0.5s ease;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.3); }
+    }
+
+    /* ============ HERO SECTION ============ */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6rem 2rem 4rem;
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(26,26,26,0.9) 0%, rgba(139,21,40,0.85) 100%),
+                  url('https://images.unsplash.com/photo-1513104890138-7c749659a591?w=1920') center/cover;
+      background-blend-mode: overlay;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: 
+        radial-gradient(circle at 30% 70%, rgba(244,162,97,0.3) 0%, transparent 40%),
+        radial-gradient(circle at 70% 30%, rgba(196,30,58,0.4) 0%, transparent 40%);
+      animation: heroGlow 8s ease-in-out infinite alternate;
+    }
+
+    @keyframes heroGlow {
+      from { opacity: 0.5; }
+      to { opacity: 1; }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      max-width: 900px;
+      color: white;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(10px);
+      padding: 0.5rem 1.25rem;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(255,255,255,0.3);
+      animation: fadeInDown 0.8s ease forwards;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      margin-bottom: 1.5rem;
+      text-shadow: 0 4px 30px rgba(0,0,0,0.4);
+      animation: fadeInUp 0.8s ease var(--animate-delay-1) forwards;
+      opacity: 0;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(135deg, #fff, var(--secondary-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      max-width: 600px;
+      margin: 0 auto 2.5rem;
+      opacity: 0.95;
+      animation: fadeInUp 0.8s ease var(--animate-delay-2) forwards;
+      opacity: 0;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeInUp 0.8s ease var(--animate-delay-3) forwards;
+      opacity: 0;
+    }
+
+    .btn-white {
+      background: white;
+      color: var(--primary);
+    }
+    .btn-white::before {
+      background: linear-gradient(135deg, var(--secondary), var(--warning));
+    }
+    .btn-white:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+
+    .btn-glass {
+      background: white(170, 165, 165, 0.15);
+      backdrop-filter: blur(10px);
+      border: 1px solid white(255, 255, 255, 0.3);
+      color: white;
+    }
+    .btn-glass:hover {
+      background: white(248, 243, 243, 0.25);
+      transform: translateY(-2px);
+    }
+
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 2.5rem;
+      margin-top: 4rem;
+      flex-wrap: wrap;
+    }
+
+    .stat-item {
+      text-align: center;
+      animation: fadeInUp 0.8s ease forwards;
+      opacity: 0;
+    }
+    .stat-item:nth-child(1) { animation-delay: 0.4s; }
+    .stat-item:nth-child(2) { animation-delay: 0.5s; }
+    .stat-item:nth-child(3) { animation-delay: 0.6s; }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      font-family: 'Playfair Display', serif;
+      background: linear-gradient(135deg, var(--secondary), white);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      margin-top: 0.25rem;
+    }
+
+    /* Scroll indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: white;
+      opacity: 0.8;
+      animation: bounce 2s infinite;
+      cursor: pointer;
+    }
+
+    .scroll-indicator i {
+      font-size: 1.5rem;
+    }
+
+    .scroll-indicator span {
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+    }
+
+    /* ============ SECTIONS COMMON ============ */
+    section {
+      padding: 5rem 2rem;
+      position: relative;
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 4rem;
+    }
+
+    .section-header h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: var(--dark);
+      margin-bottom: 1rem;
+      position: relative;
+      display: inline-block;
+    }
+
+    .section-header h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 2px;
+    }
+
+    .section-header p {
+      color: var(--gray);
+      font-size: 1.1rem;
+      margin-top: 1.5rem;
+    }
+
+    /* ============ MAIN CONTENT LAYOUT ============ */
+    .content-wrapper {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 2.5rem;
+      padding: 0 1rem;
+    }
+
+    /* ============ SIDEBAR MODERN ============ */
+    .sidebar {
+      position: sticky;
+      top: 100px;
+      height: fit-content;
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--gray-light);
+      transition: var(--transition);
+    }
+
+    .sidebar:hover {
+      box-shadow: 0 25px 80px rgba(0,0,0,0.15);
+      transform: translateY(-2px);
+    }
+
+    .search-box {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 1rem 1rem 1rem 3rem;
+      border: 2px solid var(--gray-light);
+      border-radius: 50px;
+      font-size: 0.95rem;
+      transition: var(--transition);
+      background: var(--gray-light);
+    }
+
+    .search-box input:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: white;
+      box-shadow: 0 0 0 4px rgba(196, 30, 58, 0.1);
+    }
+
+    .search-box i {
+      position: absolute;
+      left: 1.25rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray);
+      transition: var(--transition-sm);
+    }
+
+    .search-box input:focus + i {
+      color: var(--primary);
+    }
+
+    .categories {
+      list-style: none;
+      margin-bottom: 2rem;
+    }
+
+    .categories li {
+      margin-bottom: 0.35rem;
+    }
+
+    .categories button {
+      width: 100%;
+      text-align: left;
+      padding: 0.85rem 1.25rem;
+      border: none;
+      background: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-weight: 500;
+      color: var(--dark);
+      transition: var(--transition);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.95rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .categories button::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 3px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      transform: scaleY(0);
+      transition: var(--transition-sm);
+    }
+
+    .categories button:hover,
+    .categories button.active {
+      background: linear-gradient(135deg, rgba(196, 30, 58, 0.08), rgba(244, 162, 97, 0.08));
+      color: var(--primary);
+      font-weight: 600;
+      transform: translateX(4px);
+    }
+
+    .categories button.active::before,
+    .categories button:hover::before {
+      transform: scaleY(1);
+    }
+
+    .categories button .count {
+      background: var(--gray-light);
+      color: var(--gray);
+      font-size: 0.75rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 20px;
+      font-weight: 600;
+      transition: var(--transition-sm);
+    }
+
+    .categories button:hover .count,
+    .categories button.active .count {
+      background: var(--primary);
+      color: white;
+    }
+
+    .info-card {
+      background: linear-gradient(135deg, rgba(244,162,97,0.15), rgba(196,30,58,0.1));
+      border-radius: var(--radius-sm);
+      padding: 1.25rem;
+      margin-top: 1rem;
+      border: 1px solid rgba(244, 162, 97, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .info-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+      transform: rotate(45deg) translateX(-100%);
+      animation: shimmer 3s infinite;
+    }
+
+    @keyframes shimmer {
+      100% { transform: rotate(45deg) translateX(100%); }
+    }
+
+    .info-card h4 {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+      color: var(--dark);
+      font-size: 1.05rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .info-card p {
+      font-size: 0.9rem;
+      color: var(--gray);
+      margin-bottom: 0.35rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ============ MENU GRID ============ */
+    .menu-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .menu-header h2 {
+      font-size: 1.8rem;
+      color: var(--dark);
+    }
+
+    .filters {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 0.6rem 1.25rem;
+      border: 2px solid var(--gray-light);
+      background: white;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .filter-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 50px;
+      opacity: 0;
+      transition: var(--transition-sm);
+      z-index: -1;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      border-color: transparent;
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    .filter-btn:hover::before,
+    .filter-btn.active::before {
+      opacity: 1;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.75rem;
+    }
+
+    .menu-item {
+      background: white;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      border: 1px solid var(--gray-light);
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 0.6s ease forwards;
+    }
+
+    .menu-item.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .menu-item:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: var(--shadow-lg), var(--shadow-glow);
+      z-index: 10;
+      border-color: var(--primary-light);
+    }
+
+    .item-image {
+      height: 200px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .item-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+
+    .menu-item:hover .item-image img {
+      transform: scale(1.12) rotate(1deg);
+    }
+
+    .item-image::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.4), transparent 60%);
+      opacity: 0;
+      transition: var(--transition-sm);
+    }
+
+    .menu-item:hover .item-image::after {
+      opacity: 1;
+    }
+
+    .popular-badge {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: linear-gradient(135deg, var(--secondary), var(--warning));
+      color: var(--dark);
+      padding: 0.35rem 0.9rem;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      box-shadow: 0 4px 15px rgba(244, 162, 97, 0.4);
+      animation: pulse 2s infinite;
+    }
+
+    .item-content {
+      padding: 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.75rem;
+      gap: 0.75rem;
+    }
+
+    .item-name {
+      font-weight: 600;
+      font-size: 1.15rem;
+      color: var(--dark);
+      line-height: 1.3;
+    }
+
+    .item-price {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      padding: 0.45rem 1rem;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1.05rem;
+      white-space: nowrap;
+      box-shadow: 0 4px 15px rgba(196, 30, 58, 0.3);
+    }
+
+    .item-desc {
+      color: var(--gray);
+      font-size: 0.95rem;
+      margin-bottom: 1.25rem;
+      flex: 1;
+      line-height: 1.5;
+    }
+
+    .item-sizes {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .size-btn {
+      padding: 0.4rem 0.9rem;
+      border: 2px solid var(--gray-light);
+      background: white;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      color: var(--dark);
+    }
+
+    .size-btn:hover,
+    .size-btn.active {
+      border-color: var(--primary);
+      background: linear-gradient(135deg, rgba(196, 30, 58, 0.1), rgba(244, 162, 97, 0.1));
+      color: var(--primary);
+      font-weight: 600;
+      transform: scale(1.05);
+    }
+
+    .add-to-cart {
+      width: 100%;
+      padding: 0.9rem;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-size: 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .add-to-cart::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--secondary), var(--warning));
+      opacity: 0;
+      transition: var(--transition-sm);
+    }
+
+    .add-to-cart:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(196, 30, 58, 0.4);
+    }
+
+    .add-to-cart:hover::after {
+      opacity: 1;
+    }
+
+    .add-to-cart span {
+      position: relative;
+      z-index: 1;
+    }
+
+    .add-to-cart.added {
+      background: var(--success) !important;
+    }
+    .add-to-cart.added::after { display: none; }
+
+    /* ============ CART MODAL ============ */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(8px);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .modal.active { display: flex; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 520px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: var(--shadow-lg);
+      animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      border: 1px solid var(--gray-light);
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(40px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid var(--gray-light);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      background: white;
+      z-index: 1;
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    }
+
+    .modal-header h3 {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      color: var(--primary);
+      font-size: 1.4rem;
+    }
+
+    .close-modal {
+      background: var(--gray-light);
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: var(--gray);
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .close-modal:hover {
+      background: var(--primary);
+      color: white;
+      transform: rotate(90deg);
+    }
+
+    .cart-items {
+      padding: 1rem 2rem;
+    }
+
+    .cart-item {
+      display: flex;
+      gap: 1rem;
+      padding: 1.25rem 0;
+      border-bottom: 1px solid var(--gray-light);
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .cart-item-image {
+      width: 70px;
+      height: 70px;
+      border-radius: var(--radius-sm);
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    
+    .cart-item-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .cart-item-info {
+      flex: 1;
+    }
+
+    .cart-item-name {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      color: var(--dark);
+    }
+
+    .cart-item-size {
+      font-size: 0.85rem;
+      color: var(--gray);
+      margin-bottom: 0.5rem;
+    }
+
+    .cart-item-price {
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 1.1rem;
+    }
+
+    .cart-item-qty {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .qty-btn {
+      width: 32px;
+      height: 32px;
+      border: 2px solid var(--gray-light);
+      background: white;
+      border-radius: 50%;
+      cursor: pointer;
+      font-weight: 600;
+      transition: var(--transition);
+      color: var(--dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .qty-btn:hover {
+      border-color: var(--primary);
+      background: var(--primary);
+      color: rgb(5, 2, 2);
+      transform: scale(1.1);
+    }
+
+    .remove-item {
+      color: #ef4444;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+      margin-left: auto;
+      padding: 0.5rem;
+      border-radius: 50%;
+      transition: var(--transition-sm);
+    }
+
+    .remove-item:hover {
+      background: rgba(239, 68, 68, 0.1);
+      transform: scale(1.1);
+    }
+
+    .cart-total {
+      padding: 1.5rem 2rem;
+      border-top: 2px solid var(--gray-light);
+      background: linear-gradient(135deg, #fafafa, white);
+      position: sticky;
+      bottom: 0;
+      border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    }
+
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 1.25rem;
+      color: var(--dark);
+    }
+
+    .checkout-btn {
+      width: 100%;
+      padding: 1.1rem;
+      background: linear-gradient(135deg, var(--success), #16a34a);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      box-shadow: 0 8px 25px rgba(34, 197, 94, 0.3);
+    }
+
+    .checkout-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 40px rgba(34, 197, 94, 0.5);
+    }
+
+    .checkout-btn:active {
+      transform: translateY(-1px);
+    }
+
+    .empty-cart {
+      text-align: center;
+      padding: 3rem 1.5rem;
+      color: var(--gray);
+    }
+
+    .empty-cart i {
+      font-size: 3.5rem;
+      margin-bottom: 1.25rem;
+      opacity: 0.3;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    /* ============ GALLERY SECTION ============ */
+    .gallery-section {
+      background: var(--darker);
+      color: white;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .gallery-item {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+    }
+
+    .gallery-item:hover {
+      transform: scale(1.03);
+      box-shadow: var(--shadow-lg), var(--shadow-glow);
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.1);
+    }
+
+    .gallery-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+      display: flex;
+      align-items: flex-end;
+      padding: 1.5rem;
+      opacity: 0;
+      transition: var(--transition-sm);
+    }
+
+    .gallery-item:hover .gallery-overlay {
+      opacity: 1;
+    }
+
+    .gallery-overlay span {
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    /* ============ FOOTER ============ */
+    footer {
+      background: linear-gradient(135deg, var(--darker), var(--dark));
+      color: white;
+      padding: 4rem 2rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--secondary), transparent);
+    }
+
+    .footer-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-section h4 {
+      color: var(--secondary);
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 1.2rem;
+    }
+
+    .footer-section p,
+    .footer-section a {
+      color: #d1d5db;
+      text-decoration: none;
+      display: block;
+      margin-bottom: 0.65rem;
+      transition: var(--transition-sm);
+      font-size: 0.95rem;
+    }
+
+    .footer-section a:hover {
+      color: var(--secondary);
+      transform: translateX(4px);
+    }
+
+    .social-links {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1.25rem;
+    }
+
+    .social-links a {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      color: white;
+      font-size: 1.1rem;
+    }
+
+    .social-links a:hover {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      transform: translateY(-4px) scale(1.1);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 2.5rem;
+      margin-top: 2.5rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      color: #9ca3af;
+      font-size: 0.9rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-bottom a {
+      color: var(--secondary);
+      text-decoration: none;
+    }
+
+    /* ============ ANIMATIONS ============ */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Scroll reveal class */
+    .reveal {
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Staggered animation delays */
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ============ RESPONSIVE ============ */
+    @media (max-width: 1024px) {
+      .content-wrapper {
+        grid-template-columns: 1fr;
+      }
+      .sidebar {
+        position: static;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+      }
+      .search-box { margin-bottom: 0; grid-column: 1 / -1; }
+      .info-card { margin-top: 0; }
+    }
+
+    @media (max-width: 768px) {
+      header { padding: 0.75rem 1rem; }
+      header.scrolled { padding: 0.5rem 1rem; }
+      
+      .header-content {
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+      
+      nav {
+        order: 3;
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 0.5rem;
+      }
+      nav ul {
+        justify-content: center;
+        padding: 0.5rem;
+      }
+      
+      .hero h1 { font-size: 2.5rem; }
+      .hero p { font-size: 1.1rem; }
+      .hero-stats { gap: 1.5rem; }
+      .stat-value { font-size: 1.5rem; }
+      
+      .menu-grid {
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      }
+      
+      .sidebar {
+        grid-template-columns: 1fr;
+      }
+      
+      .filters {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .logo { font-size: 1.4rem; }
+      .logo i { font-size: 1.6rem; }
+      
+      nav a { padding: 0.5rem 0.8rem; font-size: 0.85rem; }
+      
+      .hero { padding: 5rem 1rem 3rem; }
+      .hero h1 { font-size: 2rem; }
+      .hero-buttons { flex-direction: column; align-items: center; }
+      
+      .menu-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .item-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .item-price {
+        margin-top: 0.5rem;
+      }
+      
+      .modal-content {
+        margin: 1rem;
+        max-height: calc(100vh - 2rem);
+      }
+    }
+
+    /* ============ UTILITIES ============ */
+    .hidden { display: none !important; }
+    .text-center { text-align: center; }
+    .mt-3 { margin-top: 3rem; }
+    
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.3rem 0.85rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-left: 0.5rem;
+    }
+    .badge-popular { 
+      background: linear-gradient(135deg, var(--secondary), var(--warning)); 
+      color: var(--dark); 
+    }
+    .badge-new { 
+      background: var(--success); 
+      color: white; 
+    }
+    
+    /* Loading skeleton */
+    .skeleton {
+      background: linear-gradient(90deg, var(--gray-light) 25%, #e0e0e0 50%, var(--gray-light) 75%);
+      background-size: 200% 100%;
+      animation: loading 1.5s infinite;
+      border-radius: var(--radius-sm);
+    }
+    
+    @keyframes loading {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--gray-light);
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--primary-dark);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Animated Elements -->
+  <div class="bg-animated"></div>
+  <div class="floating-shapes">
+    <div class="shape"></div>
+    <div class="shape"></div>
+    <div class="shape"></div>
+    <div class="shape"></div>
+  </div>
+
+  <!-- ============ HEADER ============ -->
+  <header id="header">
+    <div class="header-content">
+      <a href="#" class="logo">
+        <i class="fas fa-pizza-slice"></i>
+        La <span>Perla</span>
+      </a>
+      <nav>
+        <ul>
+          <li><a href="#menu" class="active">Menú</a></li>
+          <li><a href="#gallery">Galería</a></li>
+          <li><a href="#about">Nosotros</a></li>
+          <li><a href="#reviews">Reseñas</a></li>
+          <li><a href="#contact">Contacto</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <a href="tel:01123920014" class="btn btn-outline">
+          <i class="fas fa-phone"></i> <span class="hide-mobile">Pedir</span>
+        </a>
+        <button class="cart-btn" id="cartBtn" aria-label="Ver carrito">
+          <i class="fas fa-shopping-bag"></i>
+          <span class="cart-count" id="cartCount">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <i class="fas fa-fire"></i> ¡Nueva experiencia de pedido online!
+      </div>
+      <h1>Auténtica Pizza <span>Argentina</span></h1>
+      <p>Desde 1985, tradición familiar con masa artesanal, ingredientes premium y el sabor que nos hizo famosos en Villa Ballester.</p>
+      <div class="hero-buttons">
+        <a href="#menu" class="btn btn-white">
+          <i class="fas fa-utensils"></i> Explorar Menú
+        </a>
+        <a href="https://wa.me/5491123920014" class="btn btn-glass">
+          <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-value">4.2★</div>
+          <div class="stat-label">2,294 reseñas</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">30-45'</div>
+          <div class="stat-label">Tiempo delivery</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">150+</div>
+          <div class="stat-label">Platos únicos</div>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-indicator" onclick="document.getElementById('menu').scrollIntoView({behavior: 'smooth'})">
+      <i class="fas fa-chevron-down"></i>
+      <span>Descubrir</span>
+    </div>
+  </section>
+
+  <!-- ============ MAIN CONTENT ============ -->
+  <main id="menu">
+    <div class="content-wrapper">
+      
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="search-box">
+          <input type="text" id="searchInput" placeholder="Buscar tu antojo...">
+          <i class="fas fa-search"></i>
+        </div>
+        
+        <ul class="categories" id="categoryList"></ul>
+        
+        <div class="info-card">
+          <h4><i class="fas fa-motorcycle"></i> Delivery Express</h4>
+          <p><strong> Zona:</strong> Villa Ballester</p>
+          <p><strong> Mínimo:</strong> $15.000</p>
+          <p><strong>Entrega:</strong> 30-45 minutos</p>
+          <p style="margin-top: 0.75rem; font-weight: 600; color: var(--success);">
+            <i class="fas fa-check-circle"></i> ¡Sin costo de envío hoy!
+          </p>
+        </div>
+        
+        <div class="info-card">
+          <h4><i class="fas fa-wallet"></i> Pagos Flexibles</h4>
+          <p> Efectivo</p>
+          <p> Mercado Pago</p>
+          <p> Todas las tarjetas</p>
+          <p> Transferencia bancaria</p>
+        </div>
+      </aside>
+
+      <!-- Menu Content -->
+      <section>
+        <div class="menu-header">
+          <h2> Nuestro Menú</h2>
+          <div class="filters">
+            <button class="filter-btn active" data-filter="all"> Todos</button>
+            <button class="filter-btn" data-filter="popular"> Populares</button>
+            <button class="filter-btn" data-filter="pizza"> Pizzas</button>
+            <button class="filter-btn" data-filter="pasta"> Pastas</button>
+            <button class="filter-btn" data-filter="new"> Nuevos</button>
+          </div>
+        </div>
+
+        <div class="menu-grid" id="menuGrid"></div>
+      </section>
+    </div>
+  </main>
+
+  <!-- ============ GALLERY SECTION ============ -->
+  <section class="gallery-section" id="gallery">
+    <div class="section-header">
+      <h2> Momentos La Perla</h2>
+      <p>Cada plato es una obra de arte. Descubrí la experiencia visual de nuestra cocina.</p>
+    </div>
+    <div class="gallery-grid">
+      <div class="gallery-item reveal">
+        <img src="https://www.lanacion.com.ar/resizer/v2/con-el-pintan-las-pizzas-desde-hace-muchisimas-RF52N56TSNH3NM6VT3OWJFHNUM.jpg?auth=a5138043a177646fba973967b5d3af39916660fceb731653f5752126ea61f228&width=768&quality=70&smart=false" alt="Pizza artesanal" loading="lazy">
+        <div class="gallery-overlay"><span>Pizza Muzarella</span></div>
+      </div>
+      <div class="gallery-item reveal reveal-delay-1">
+        <img src="https://i.ytimg.com/vi/tNxrUt0tvNA/maxresdefault.jpg" alt="Milanesa Napolitana" loading="lazy">
+        <div class="gallery-overlay"><span>Milanesa Napolitana</span></div>
+      </div>
+      <div class="gallery-item reveal reveal-delay-2">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_Kq5VkvgumoA1XMRpZZ_qtjzEtbZYY_dzvw&s" alt="Empanadas" loading="lazy">
+        <div class="gallery-overlay"><span>Empanadas Caseras</span></div>
+      </div>
+      <div class="gallery-item reveal reveal-delay-3">
+        <img src="https://media.a24.com/p/6d7c5fde8faae6369f4e3d69f94640c0/adjuntos/296/imagenes/009/167/0009167419/533x300/smart/flan-mixto-receta-casera-el-postre-mas-perfecto.png" alt="Postres" loading="lazy">
+        <div class="gallery-overlay"><span>Flan Mixto</span></div>
+      </div>
+      <div class="gallery-item reveal">
+        <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAGM_JEC73bav32orS82kFbF2zo_AVxt4AAZJR9X3Suyo8u0ZDyNAn54Qg64FZRWtguWFkOGqVSn6cT7snxgTuViaZ_sRx6mKrRUvsbOIEzYvtqw-DZM5b-frV70EbPUHwnztwzY=s1360-w1360-h1020-rw" alt="Ambiente" loading="lazy">
+        <div class="gallery-overlay"><span>Nuestro Local</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CART MODAL ============ -->
+  <div class="modal" id="cartModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3><i class="fas fa-shopping-bag"></i> Tu Pedido</h3>
+        <button class="close-modal" id="closeModal" aria-label="Cerrar">&times;</button>
+      </div>
+      <div class="cart-items" id="cartItems">
+        <div class="empty-cart">
+          <i class="fas fa-utensils"></i>
+          <p style="font-size: 1.1rem; margin-bottom: 0.5rem;">Tu carrito está vacío</p>
+          <p style="font-size: 0.9rem; opacity: 0.8;">¡Explorá nuestro menú y agregá tus favoritos!</p>
+        </div>
+      </div>
+      <div class="cart-total">
+        <div class="total-row">
+          <span>Total:</span>
+          <span id="cartTotal">$0</span>
+        </div>
+        <button class="checkout-btn" id="checkoutBtn">
+          <i class="fab fa-whatsapp"></i> Enviar Pedido
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ FOOTER ============ -->
+  <footer id="contact">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4><i class="fas fa-pizza-slice"></i> La Perla</h4>
+        <p>Tradición, sabor y pasión en cada bocado. Desde 1985 siendo parte de tus momentos especiales.</p>
+        <div class="social-links">
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+        </div>
+      </div>
+      
+      <div class="footer-section">
+        <h4><i class="fas fa-clock"></i> Horarios</h4>
+        <p> Lun - Jue: 18:00 - 00:00</p>
+        <p> Vie - Sáb: 18:00 - 01:00</p>
+        <p>Domingo: 18:00 - 00:00</p>
+        <p style="margin-top: 1rem; display: flex; align-items: center; gap: 0.5rem; color: var(--success);">
+          <span style="width: 10px; height: 10px; background: var(--success); border-radius: 50%; display: inline-block; animation: pulse 1.5s infinite;"></span>
+          ¡Abierto ahora!
+        </p>
+      </div>
+      
+      <div class="footer-section">
+        <h4><i class="fas fa-map-marker-alt"></i> Ubicación</h4>
+        <p> San Martín 4886</p>
+        <p>B1653 Villa Ballester</p>
+        <p>Provincia de Buenos Aires</p>
+        <a href="https://maps.google.com/?q=San+Martín+4886+Villa+Ballester" target="_blank" style="margin-top: 0.75rem; color: var(--secondary);">
+          <i class="fas fa-external-link-alt"></i> Ver en Google Maps
+        </a>
+      </div>
+      
+      <div class="footer-section">
+        <h4><i class="fas fa-headset"></i> Contacto</h4>
+        <a href="tel:01123920014"><i class="fas fa-phone"></i> 011 2392-0014</a>
+        <a href="https://wa.me/5491123920014"><i class="fab fa-whatsapp"></i> WhatsApp Directo</a>
+        <a href="mailto:info@laperla.com"><i class="fas fa-envelope"></i> info@laperla.com</a>
+        <div style="margin-top: 1rem;">
+          <a href="#" style="display: inline-block; margin-right: 0.75rem;"><i class="fab fa-mercadopago"></i> Mercado Pago</a>
+          <a href="#" style="display: inline-block;"><i class="fas fa-credit-card"></i> Tarjetas</a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      &copy; 2024 <strong>La Perla Pizzería</strong>. Todos los derechos reservados. 
+      | <a href="#">Términos</a> • <a href="#">Privacidad</a> • <a href="#">Cookies</a>
+      <br><span style="opacity: 0.7; font-size: 0.85rem;">Diseñado con ❤️ para los amantes de la buena pizza</span>
+    </div>
+  </footer>
+
+  <!-- ============ JAVASCRIPT ============ -->
+  <script>
+    // ============ DATA DEL MENÚ CON IMÁGENES ============
+    const menuData = {
+      categories: [
+        { id: 'pizzas', name: ' Pizzas', count: 52 },
+        { id: 'empanadas', name: ' Empanadas', count: 10 },
+        { id: 'sandwiches', name: ' Sandwiches', count: 12 },
+        { id: 'entradas', name: ' Entradas', count: 15 },
+        { id: 'principales', name: ' Principales', count: 35 },
+        { id: 'pastas', name: ' Pastas', count: 20 },
+        { id: 'postres', name: ' Postres', count: 14 },
+        { id: 'cafeteria', name: ' Cafetería', count: 25 },
+        { id: 'bebidas', name: ' Bebidas', count: 30 }
+      ],
+      items: [
+        { id: 1, name: 'Pizza Muzarella', category: 'pizzas', price: 20000, sizes: ['Chica $13.000', 'Grande $20.000', 'Porción $2.500'], popular: true, desc: 'Clásica argentina con abundante muzarella fresca y salsa de tomate casera.', image: 'https://i.pinimg.com/564x/c9/77/44/c9774488483c0405bfe595f54bc85bb4.jpg' },
+        { id: 2, name: 'Pizza Napolitana', category: 'pizzas', price: 25000, sizes: ['Chica $16.000', 'Grande $25.000', 'Porción $3.200'], popular: true, desc: 'Tomate, muzarella, ajo, orégano y rodajas de tomate fresco.', image: 'https://media.elgourmet.com/article/8metlvp345_portada-pizza.jpg' },
+        { id: 3, name: 'Pizza Jamón y Morrones', category: 'pizzas', price: 30000, sizes: ['Chica $19.000', 'Grande $30.000'], popular: true, desc: 'Combinación perfecta de jamón cocido y morrones asados.', image: 'https://www.comemelapizza.com/wp-content/uploads/2014/10/pizza_de_jam%C3%B3n_y_morrones_6.jpg' },
+        { id: 4, name: 'Pizza Calabresa', category: 'pizzas', price: 36000, sizes: ['Chica $22.000', 'Grande $36.000'], desc: 'Picante y sabrosa con rodajas de calabresa y cebolla.', image: 'https://www.eldiariodecarlospaz.com.ar/u/fotografias/m/2025/4/13/f638x638-352840_411007_5050.jpg' },
+        { id: 5, name: 'Pizza Fugazzeta', category: 'pizzas', price: 30000, sizes: ['Grande $30.000', 'Porción $3.800'], popular: true, desc: 'Cebolla caramelizada y abundante queso, masa finita.', image: 'https://tarasmulticulturaltable.com/wp-content/uploads/2015/03/Fugazzeta-Argentinian-Stuffed-Pizza-7-of-8.jpg' },
+        { id: 7, name: 'Empanada de Carne', category: 'empanadas', price: 2500, popular: true, desc: 'Carne cortada a cuchillo, huevo, aceitunas y especias.', image: 'https://resizer.glanacion.com/resizer/v2/12072023-empanadas-argentinas-de-sabores-express-BUHGBZQ5FVAITHTZSF3WOFNTFA?auth=f3392dcb14acedb9c3b4a0cf827c58b6c35708303fb388f708f46599c8ac1ac4&width=768&height=576&quality=70&smart=true' },
+        { id: 8, name: 'Empanada de Pollo', category: 'empanadas', price: 2500, desc: 'Pollo desmenuzado con verduras y salsa especial.', image: 'https://rockapan.com/cdn/shop/files/empanada-argentina-pollo.jpg?v=1750280295&width=1946' },
+        { id: 9, name: 'Empanada de Jamón y Queso', category: 'empanadas', price: 2500, desc: 'Clásica combinación con queso que se estira.', image: 'https://www.clarin.com/2021/04/12/WYz8Yr8tB_1200x0__1.jpg' },
+        { id: 10, name: 'Docena de Empanadas', category: 'empanadas', price: 28500, desc: '¡Mejor precio! Elegí tus 12 favoritas.', image: 'https://www.terceradocena.com.ar/images/portada.png' },
+        { id: 11, name: 'Milanesa a la Napolitana', category: 'principales', price: 17000, popular: true, desc: 'Milanesa de ternera con jamón, queso y tomate. ¡Imperdible!', image: 'https://cuk-it.com/wp-content/uploads/2022/09/milanesa-napo-stories-5.webp' },
+        { id: 12, name: 'Milanesa Completa', category: 'principales', price: 20000, desc: 'Con huevo frito, jamón, queso, tomate y lechuga.', image: 'https://cdn.eldestapeweb.com/eldestape/052021/1620060040225/milanesa_a_caballo_receta_de_cocina.jpg?cw=1365&ch=768' },
+        { id: 13, name: 'Suprema de Pollo', category: 'principales', price: 13000, desc: 'Pechuga de pollo empanizada, jugosa y crocante.', image: 'https://alicante.com.ar/wp-content/uploads/2022/06/jpeg-optimizer_iStock-1057832648-1-2000x1331.jpg' },
+        { id: 14, name: 'Bife de Costilla', category: 'principales', price: 18000, desc: 'Corte premium a la parrilla, punto perfecto.', image: 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/13/95/b5/a8/photo2jpg.jpg' },
+        { id: 15, name: 'Ñoquis con Estofado', category: 'pastas', price: 18000, popular: true, desc: 'Ñoquis artesanales con nuestro estofado de carne casero.', image: 'https://media.airedesantafe.com.ar/p/95786db736ac7e92b7704dbbb678928e/adjuntos/268/imagenes/003/780/0003780582/1200x675/smart/como-hacer-noquis-estofado-bondiola-la-receta-guillermo-calabrese.png' },
+        { id: 16, name: 'Tallarines al Tuco', category: 'pastas', price: 12000, desc: 'Pasta fresca con salsa de tomate y albahaca.', image: 'https://i.ytimg.com/vi/UYuJxOrTYxE/maxresdefault.jpg' },
+        { id: 17, name: 'Ravioles Mixtos', category: 'pastas', price: 15000, desc: 'Rellenos de carne y verdura, con salsa a elección.', image: 'https://www.cetraro.com.ar/wp-content/uploads/primer-plano-sabrosos-ravioles-italianos_1220-4774.jpg' },
+        { id: 18, name: 'Flan Mixto', category: 'postres', price: 7000, popular: true, desc: 'Flan casero con dulce de leche y crema batida.', image: 'https://pbs.twimg.com/media/F2mmh-TXMAEzwhW.jpg' },
+        { id: 19, name: 'Budín de Pan', category: 'postres', price: 6000, desc: 'Receta de la abuela, con pasas de uva y esencia de vainilla.', image: 'https://media.lmneuquen.com/p/f377e6191837fe6fb977485422f14c4e/adjuntos/195/imagenes/007/632/0007632010/1200x675/smart/budin-pan-2jpg.jpg' },
+        { id: 20, name: 'Cerveza Quilmes', category: 'bebidas', price: 4500, sizes: ['Lata $4.500', 'Litro $7.600'], desc: 'Bien fría, la compañera perfecta de tu pizza.', image: 'https://www.cerveceriaymalteriaquilmes.com/sites/g/files/wnfebl12181/files/styles/webp/public/quilmes-100.jpg.webp?itok=dmStrwiV' },
+        { id: 21, name: 'Agua Mineral', category: 'bebidas', price: 4200, sizes: ['500ml $4.200', '1.5L $9.000'], desc: 'Con o sin gas, para acompañar tu comida.', image: 'https://www.prensalibresn.com/wp-content/uploads/2024/12/WhatsApp-Image-2024-12-17-at-09.01.45.jpeg' },
+        { id: 22, name: 'Café con Leche', category: 'cafeteria', price: 2800, desc: 'Recién hecho, con leche fresca y espuma perfecta.', image: 'https://i.blogs.es/421374/cafe-con-leche2/840_560.jpg' },
+        { id: 23, name: 'Submarino', category: 'cafeteria', price: 3200, desc: 'Chocolate amargo para derretir en leche caliente.', image: 'https://www.196flavors.com/wp-content/uploads/2020/04/el-submarino-13.jpeg' }
+      ]
+    };
+
+    // ============ ESTADO DE LA APP ============
+    let cart = [];
+    let currentCategory = 'all';
+    let searchQuery = '';
+
+    // ============ ELEMENTOS DEL DOM ============
+    const menuGrid = document.getElementById('menuGrid');
+    const categoryList = document.getElementById('categoryList');
+    const searchInput = document.getElementById('searchInput');
+    const cartBtn = document.getElementById('cartBtn');
+    const cartModal = document.getElementById('cartModal');
+    const closeModal = document.getElementById('closeModal');
+    const cartItems = document.getElementById('cartItems');
+    const cartTotal = document.getElementById('cartTotal');
+    const cartCount = document.getElementById('cartCount');
+    const checkoutBtn = document.getElementById('checkoutBtn');
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const header = document.getElementById('header');
+
+    // ============ INICIALIZACIÓN ============
+    document.addEventListener('DOMContentLoaded', () => {
+      renderCategories();
+      renderMenu();
+      setupEventListeners();
+      updateCartCount();
+      initScrollAnimations();
+      initHeaderScroll();
+    });
+
+    // ============ HEADER SCROLL EFFECT ============
+    function initHeaderScroll() {
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+      });
+    }
+
+    // ============ SCROLL REVEAL ANIMATIONS ============
+    function initScrollAnimations() {
+      const revealElements = document.querySelectorAll('.reveal, .menu-item');
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active', 'visible');
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+      
+      revealElements.forEach(el => observer.observe(el));
+    }
+
+    // ============ RENDERIZAR CATEGORÍAS ============
+    function renderCategories() {
+      categoryList.innerHTML = menuData.categories.map((cat, index) => `
+        <li>
+          <button class="${currentCategory === cat.id || (currentCategory === 'all' && index === 0) ? 'active' : ''}" 
+                  data-category="${cat.id}" style="animation-delay: ${index * 0.05}s">
+            ${cat.name}
+            <span class="count">${cat.count}</span>
+          </button>
+        </li>
+      `).join('');
+      
+      document.querySelectorAll('.categories button').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          document.querySelectorAll('.categories button').forEach(b => b.classList.remove('active'));
+          e.currentTarget.classList.add('active');
+          currentCategory = e.currentTarget.dataset.category;
+          renderMenu();
+        });
+      });
+    }
+
+    // ============ RENDERIZAR MENÚ ============
+    function renderMenu() {
+      let filteredItems = [...menuData.items];
+      
+      // Filtros combinados
+      if (currentCategory !== 'all') {
+        filteredItems = filteredItems.filter(item => item.category === currentCategory);
+      }
+      
+      if (searchQuery) {
+        const query = searchQuery.toLowerCase();
+        filteredItems = filteredItems.filter(item => 
+          item.name.toLowerCase().includes(query) || 
+          item.desc.toLowerCase().includes(query)
+        );
+      }
+      
+      const activeFilter = document.querySelector('.filter-btn.active')?.dataset.filter;
+      if (activeFilter === 'popular') {
+        filteredItems = filteredItems.filter(item => item.popular);
+      } else if (activeFilter && activeFilter !== 'all') {
+        filteredItems = filteredItems.filter(item => item.category === activeFilter);
+      }
+
+      if (filteredItems.length === 0) {
+        menuGrid.innerHTML = `
+          <div class="text-center" style="grid-column: 1/-1; padding: 4rem; background: white; border-radius: var(--radius); box-shadow: var(--shadow);">
+            <i class="fas fa-search" style="font-size: 4rem; color: var(--gray); margin-bottom: 1.5rem; opacity: 0.5;"></i>
+            <h3 style="margin-bottom: 0.75rem;">No encontramos platos 😕</h3>
+            <p style="color: var(--gray); margin-bottom: 1.5rem;">Probá con otra búsqueda o categoría</p>
+            <button class="btn btn-primary" onclick="resetFilters()">
+              <i class="fas fa-undo"></i> Ver todo el menú
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      menuGrid.innerHTML = filteredItems.map((item, index) => {
+        const priceFormatted = new Intl.NumberFormat('es-AR', {
+          style: 'currency', currency: 'ARS', minimumFractionDigits: 0
+        }).format(item.price);
+        
+        return `
+          <article class="menu-item reveal reveal-delay-${(index % 4) + 1}" data-id="${item.id}" style="animation-delay: ${index * 0.05}s">
+            ${item.popular ? '<span class="popular-badge"><i class="fas fa-star"></i> Popular</span>' : ''}
+            <div class="item-image">
+              <img src="${item.image}" alt="${item.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400'">
+            </div>
+            <div class="item-content">
+              <div class="item-header">
+                <h3 class="item-name">${item.name}</h3>
+                <span class="item-price">${priceFormatted}</span>
+              </div>
+              <p class="item-desc">${item.desc}</p>
+              ${item.sizes ? `
+                <div class="item-sizes">
+                  ${item.sizes.map((size, i) => `
+                    <button class="size-btn ${i === 1 ? 'active' : ''}" data-size="${size}">
+                      ${size.split(' ')[0]}
+                    </button>
+                  `).join('')}
+                </div>
+              ` : ''}
+              <button class="add-to-cart" data-id="${item.id}">
+                <span><i class="fas fa-plus"></i> Agregar al pedido</span>
+              </button>
+            </div>
+          </article>
+        `;
+      }).join('');
+      
+      // Re-inicializar animaciones de scroll para nuevos elementos
+      setTimeout(() => initScrollAnimations(), 100);
+      
+      // Event listeners para botones
+      document.querySelectorAll('.add-to-cart').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const itemId = parseInt(e.currentTarget.dataset.id);
+          const item = menuData.items.find(i => i.id === itemId);
+          const sizeBtn = e.currentTarget.closest('.menu-item').querySelector('.size-btn.active');
+          addToCart(item, sizeBtn?.dataset.size);
+          
+          // Efecto visual
+          const originalText = e.currentTarget.innerHTML;
+          e.currentTarget.classList.add('added');
+          e.currentTarget.innerHTML = '<span><i class="fas fa-check"></i> ¡Agregado!</span>';
+          setTimeout(() => {
+            e.currentTarget.classList.remove('added');
+            e.currentTarget.innerHTML = originalText;
+          }, 1500);
+        });
+      });
+      
+      document.querySelectorAll('.size-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.currentTarget.parentElement.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+          e.currentTarget.classList.add('active');
+        });
+      });
+    }
+
+    // ============ CARRITO ============
+    function addToCart(item, size = null) {
+      const existingItem = cart.find(i => i.id === item.id && i.size === size);
+      if (existingItem) {
+        existingItem.quantity++;
+      } else {
+        cart.push({ ...item, size, quantity: 1 });
+      }
+      updateCartCount();
+      renderCart();
+      showNotification(`¡${item.name} agregado! 🎉`);
+    }
+
+    function removeFromCart(itemId, size) {
+      cart = cart.filter(item => !(item.id === itemId && item.size === size));
+      updateCartCount();
+      renderCart();
+    }
+
+    function updateQuantity(itemId, size, change) {
+      const item = cart.find(i => i.id === itemId && i.size === size);
+      if (item) {
+        item.quantity += change;
+        if (item.quantity <= 0) removeFromCart(itemId, size);
+        else renderCart();
+      }
+    }
+
+    function updateCartCount() {
+      const total = cart.reduce((sum, item) => sum + item.quantity, 0);
+      cartCount.textContent = total;
+      cartCount.style.display = total > 0 ? 'flex' : 'none';
+      if (total > 0) cartCount.parentElement.classList.add('animate__bounce');
+    }
+
+    function renderCart() {
+      if (cart.length === 0) {
+        cartItems.innerHTML = `
+          <div class="empty-cart">
+            <i class="fas fa-utensils"></i>
+            <p style="font-size: 1.1rem; margin-bottom: 0.5rem;">Tu carrito está vacío</p>
+            <p style="font-size: 0.9rem; opacity: 0.8;">¡Explorá nuestro menú y agregá tus favoritos!</p>
+          </div>
+        `;
+        cartTotal.textContent = '$0';
+        return;
+      }
+      
+      let total = 0;
+      cartItems.innerHTML = cart.map((item, index) => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
+        const priceFmt = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 }).format(item.price);
+        const totalFmt = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 }).format(itemTotal);
+        
+        return `
+          <div class="cart-item" style="animation-delay: ${index * 0.05}s">
+            <div class="cart-item-image">
+              <img src="${item.image}" alt="${item.name}" onerror="this.parentElement.innerHTML='<i class=\\'fas fa-pizza-slice\\'></i>'">
+            </div>
+            <div class="cart-item-info">
+              <div class="cart-item-name">${item.name}</div>
+              ${item.size ? `<div class="cart-item-size">${item.size}</div>` : ''}
+              <div class="cart-item-price">${totalFmt}</div>
+              <div class="cart-item-qty">
+                <button class="qty-btn" data-action="decrease" data-id="${item.id}" data-size="${item.size || ''}">−</button>
+                <span>${item.quantity}</span>
+                <button class="qty-btn" data-action="increase" data-id="${item.id}" data-size="${item.size || ''}">+</button>
+              </div>
+            </div>
+            <button class="remove-item" data-id="${item.id}" data-size="${item.size || ''}" title="Eliminar">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </div>
+        `;
+      }).join('');
+      
+      cartTotal.textContent = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 }).format(total);
+      
+      // Event listeners
+      document.querySelectorAll('.qty-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const id = parseInt(e.currentTarget.dataset.id);
+          const size = e.currentTarget.dataset.size || null;
+          updateQuantity(id, size, e.currentTarget.dataset.action === 'increase' ? 1 : -1);
+        });
+      });
+      document.querySelectorAll('.remove-item').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const id = parseInt(e.currentTarget.dataset.id);
+          const size = e.currentTarget.dataset.size || null;
+          removeFromCart(id, size);
+        });
+      });
+    }
+
+    // ============ EVENT LISTENERS ============
+    function setupEventListeners() {
+      searchInput.addEventListener('input', (e) => {
+        searchQuery = e.target.value.trim();
+        renderMenu();
+      });
+      
+      cartBtn.addEventListener('click', () => {
+        renderCart();
+        cartModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      });
+      
+      const closeCart = () => {
+        cartModal.classList.remove('active');
+        document.body.style.overflow = '';
+      };
+      
+      closeModal.addEventListener('click', closeCart);
+      cartModal.addEventListener('click', (e) => { if (e.target === cartModal) closeCart(); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && cartModal.classList.contains('active')) closeCart(); });
+      
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          filterBtns.forEach(b => b.classList.remove('active'));
+          e.currentTarget.classList.add('active');
+          renderMenu();
+        });
+      });
+      
+      checkoutBtn.addEventListener('click', () => {
+        if (cart.length === 0) return;
+        let msg = '¡Hola La Perla!  Quiero pedir:%0A%0A';
+        let total = 0;
+        cart.forEach(item => {
+          const itemTotal = item.price * item.quantity;
+          total += itemTotal;
+          msg += `• ${item.name}${item.size ? ` (${item.size})` : ''} x${item.quantity} - $${itemTotal.toLocaleString('es-AR')}%0A`;
+        });
+        msg += `%0A*Total: $${total.toLocaleString('es-AR')}*%0A%0ADirección: [Completar]`;
+        window.open(`https://wa.me/5491123920014?text=${msg}`, '_blank');
+      });
+    }
+
+    // ============ UTILIDADES ============
+    function resetFilters() {
+      currentCategory = 'all';
+      searchQuery = '';
+      searchInput.value = '';
+      filterBtns.forEach((btn, i) => btn.classList.toggle('active', i === 0));
+      document.querySelectorAll('.categories button').forEach((btn, i) => btn.classList.toggle('active', i === 0));
+      renderMenu();
+    }
+    
+    function showNotification(message) {
+      const notif = document.createElement('div');
+      notif.innerHTML = `
+        <div style="
+          position: fixed; bottom: 2rem; right: 2rem;
+          background: linear-gradient(135deg, var(--success), #16a34a);
+          color: white; padding: 1rem 1.75rem; border-radius: 50px;
+          box-shadow: 0 10px 40px rgba(34,197,94,0.4);
+          z-index: 3000; display: flex; align-items: center; gap: 0.75rem;
+          font-weight: 500; animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s forwards;
+        ">
+          <i class="fas fa-check-circle"></i> ${message}
+        </div>
+      `;
+      document.body.appendChild(notif);
+      setTimeout(() => notif.remove(), 3000);
+      
+      if (!document.getElementById('notif-styles')) {
+        const style = document.createElement('style');
+        style.id = 'notif-styles';
+        style.textContent = `
+          @keyframes slideIn { from { transform: translateX(100px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+          @keyframes fadeOut { from { opacity: 1; transform: translateX(0); } to { opacity: 0; transform: translateX(50px); } }
+        `;
+        document.head.appendChild(style);
+      }
+    }
+
+    window.resetFilters = resetFilters;
+  </script>
+</body>
+</html>
